@@ -57,7 +57,6 @@ namespace driver {
 		return irp->IoStatus.Status;
 	}
 
-	// Note: TODO
 	NTSTATUS device_control(PDEVICE_OBJECT device_object, PIRP irp) {
 		UNREFERENCED_PARAMETER(device_object);
 

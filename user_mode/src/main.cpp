@@ -10,17 +10,16 @@ static DWORD get_process_id(const wchar_t* process_name) {
 	HANDLE snap_shot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, NULL);
 	if (snap_shot == INVALID_HANDLE_VALUE) return process_id;
 
-	PPROCESSENTRY32 entry = {};
-	entry->dwSize = sizeof(decltype(entry)); // thereis difference from tutorial
-
-	if (Process32FirstW(snap_shot, entry) == TRUE) { // thereis difference from tutorial
-		if (_wcsicmp(process_name, entry->szExeFile) == 0) {
-			process_id = entry->th32ProcessID; // thereis difference from tutorial
+	PROCESSENTRY32 entry = {};
+	entry.dwSize = sizeof(decltype(entry));
+	if (Process32FirstW(snap_shot, &entry) == TRUE) { 
+		if (_wcsicmp(process_name, entry.szExeFile) == 0) {
+			process_id = entry.th32ProcessID;
 		}
 		else {
-			while (Process32NextW(snap_shot, entry) == TRUE) { // thereis difference from tutorial
-				if (_wcsicmp(process_name, entry->szExeFile) == 0) { // thereis difference from tutorial
-					process_id = entry->th32ProcessID; // thereis difference from tutorial
+			while (Process32NextW(snap_shot, &entry) == TRUE) {
+				if (_wcsicmp(process_name, entry.szExeFile) == 0) {
+					process_id = entry.th32ProcessID;
 					break;
 				}
 			}
